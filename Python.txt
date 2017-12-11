@@ -1,0 +1,48 @@
+import random
+
+MAX_ERRORS = 8
+words_list = ['стадион', 'прогресс', 'трасса', 'практика', 'программирование', \
+             'алгоритм', 'табул€ци€', 'аккумул€тор']
+
+secret_word = random.sample(words_list, 1)[0]
+print(secret_word)
+
+gamer_word = ['*'] * len(secret_word)
+errors_counter = 0
+used_letters = []
+
+while True:
+   print("".join(gamer_word))
+   if used_letters:
+       print(f'\tназванные буквы: {used_letters}')
+
+   letter = input("введите букву: ").lower()
+
+   if len(letter) != 1 or not letter.isalpha():
+       print("что-то не то")
+       continue
+
+   # print(f'код введенного символа: {ord(letter)}')
+   if letter in used_letters:
+       print(f'вы уже называли букву {letter}')
+       continue
+
+   if letter in secret_word:
+       for pos, _char in enumerate(secret_word):
+           if _char == letter:
+               gamer_word[pos] = letter
+
+       print("".join(gamer_word))
+   else:
+       errors_counter += 1
+       used_letters.append(letter)
+       if errors_counter == MAX_ERRORS:
+           print('вы проиграли :(')
+           break
+
+       print(f'буквы {letter} нет, ошибок: {errors_counter}')
+
+   if '*' not in gamer_word:
+       print('вы выиграли :)')
+       break
+
